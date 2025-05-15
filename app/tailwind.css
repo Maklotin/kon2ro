@@ -2,11 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "CooperBlack";
+  src: url("/fonts/COOPBL.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CBBOutline";
+  src: url("/fonts/Cooper-Becker-Black-Outline.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ReenieBeanie";
+  src: url("/fonts/ReanieBeanie.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
   @apply bg-primary;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
+  }
+}
+
+h1 {
+  @apply font-cbboutline text-6xl text-primary;
+}
+
+@layer components {
+  .font-cooperblack {
+    font-family: "CooperBlack", sans-serif;
+  }
+  .font-cbboutline {
+    font-family: "CBBOutline", sans-serif;
+  }
+  .font-rbeanie {
+    font-family: "ReenieBeanie", sans-serif;
   }
 }

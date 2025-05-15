@@ -8,5 +8,5 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  return <div className="flex h-screen items-center justify-center"></div>;
+  return <div className="flex h-screen items-center justify-center"><h1 className="text-secondary-100">Kon2ro</h1></div>;
 }
