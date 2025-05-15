@@ -31,7 +31,7 @@ export function StickyNoteTextInput({
   return (
     <input
       className={cn(
-        "text-5xl font-rbeanie text-secondary-200 bg-transparent align-middle text-center active:outline-none focus:outline-none focus:ring-0 placeholder:text-secondary-200",
+        "text-5xl font-rbeanie text-secondary-300 bg-transparent align-middle text-center active:outline-none focus:outline-none focus:ring-0 placeholder:text-secondary-200",
         className
       )}
       {...props}

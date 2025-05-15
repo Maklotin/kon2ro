@@ -51,3 +51,16 @@ p {
     font-family: "ReenieBeanie", sans-serif;
   }
 }
+
+/* Fjern autofill styling hentet fra @PringlePot fra tailwindcss "discussions"
+https://github.com/tailwindlabs/tailwindcss/discussions/9621 
+*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #585B19 !important;
+  color: #585B19 !important;
+  caret-color: #585B19 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
