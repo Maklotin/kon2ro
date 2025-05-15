@@ -73,75 +73,75 @@ export const StickyNote = ({
             height="64"
             transform="rotate(-2.25417 139.835 15.7842)"
             fill="white"
-            fill-opacity="0.47"
-            shape-rendering="crispEdges"
+            fillOpacity="0.47"
+            shapeRendering="crispEdges"
           />
         </g>
 
         <path
           d="M6.07639 137.39L529.745 99.6735"
           stroke="#A80000"
-          stroke-width="2"
+          strokeWidth="2"
         />
         <path
           d="M8.84775 177.022L532.502 139.307"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M11.6191 216.654L535.313 178.936"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M14.3904 256.286L538.036 218.572"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M17.1618 295.919L541.593 258.149"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M19.9331 335.551L543.569 297.837"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M22.7045 375.183L546.331 337.469"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M25.4758 414.815L549.086 377.103"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M28.2472 454.447L551.896 416.732"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M31.0186 494.079L554.614 456.368"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
         <path
           d="M33.7899 533.711L557.44 495.996"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          stroke-width="2"
+          strokeOpacity="0.5"
+          strokeWidth="2"
         />
 
         {goBack && (
@@ -195,17 +195,17 @@ export const StickyNote = ({
         <path
           d="M101.25 565.782L65 63.0776"
           stroke="#A80000"
-          stroke-width="2"
+          strokeWidth="2"
         />
 
         <text
           transform="translate(66.5445 87.946) rotate(-4)"
           fill="black"
           stroke="#A80000"
-          stroke-opacity="0.5"
-          font-family="Cooper Black"
-          font-size="48"
-          letter-spacing="0em"
+          strokeOpacity="0.5"
+          fontFamily="Cooper Black"
+          fontSize="48"
+          letterSpacing="0em"
         >
           <tspan x="200" y="44.0352" textAnchor="middle">
             {title}
@@ -220,9 +220,9 @@ export const StickyNote = ({
             width="566.878"
             height="547.394"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -255,9 +255,9 @@ export const StickyNote = ({
             width="264.33"
             height="93.4689"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"

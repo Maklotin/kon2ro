@@ -1,6 +1,8 @@
-import type { MetaFunction } from "@remix-run/node";
+import { redirect, type LoaderFunction, type MetaFunction } from "@remix-run/node";
 import { NavBar } from "~/components/NavBar";
-import { StickyNote } from "~/components/Stickynote";
+import { session } from "~/cookies";
+import { auth as serverAuth } from "~/firebase.server";
+
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,12 +11,32 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const loader: LoaderFunction = async ({ request }) => {
+
+  const jwt = await session.parse(request.headers.get("Cookie"));
+
+  if (!jwt) {
+    return redirect("/login");
+  }
+  try {
+    const token = serverAuth.verifySessionCookie(jwt);
+
+    // const profile = await getUserProfile(token.uid);  
+
+    return {
+      // profile,
+    };
+  } catch (error) {
+
+    return redirect("/logout");
+  }
+};
+
 export default function Index() {
   return (
     <div className="flex-col h-screen ">
       <NavBar />
-      <div className="flex flex-col items-center justify-center w-full">
-      </div>
+      <div></div>
     </div>
   );
 }
