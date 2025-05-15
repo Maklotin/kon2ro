@@ -27,6 +27,7 @@ export default {
         "red-line-100": "#A80000",
         "red-line-200": "#6B0000",
         "link-blue": "#012D91",
+        "link-blue-hover": "#00ABD8",
       }
     },
   },
