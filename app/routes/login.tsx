@@ -22,7 +22,7 @@ export default function Login() {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const navigate = useNavigate();
-
+  
   React.useEffect(() => {
     const unsubscribe = clientAuth.onAuthStateChanged((user) => {
       if (user) {
