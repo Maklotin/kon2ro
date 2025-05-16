@@ -10,49 +10,28 @@ import {
   StickyNoteTextInput,
 } from "~/components/ui-library";
 import { auth as clientAuth } from "~/firebase.client";
-import { auth as serverAuth } from "~/firebase.server";
-import { ActionFunction } from "@remix-run/node";
-import { Link, useFetcher } from "@remix-run/react";
-import { session } from "~/cookies";
-import { redirect } from "@remix-run/node";
+import { Link, redirect, useFetcher, useNavigate } from "@remix-run/react";
+
 import { createUserIfItNotExists } from "~/utils/user";
 
 // Hentet fra remix firebase auth tutorial fra incertase.io: https://invertase.io/blog/remix-firebase-auth
-export const action: ActionFunction = async ({ request }) => {
-  const form = await request.formData();
-  const idToken = form.get("idToken")?.toString();
-
-  if (!idToken) {
-    throw new Error("idToken is required");
-  }
-
-  try {
-    const decodedToken = await serverAuth.verifyIdToken(idToken);
-
-    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 dager
-    const sessionCookie = await serverAuth.createSessionCookie(idToken, {
-      expiresIn,
-    });
-
-    return redirect("/", {
-      headers: {
-        "Set-Cookie": await session.serialize(sessionCookie, {
-          expires: new Date(Date.now() + expiresIn),
-          maxAge: expiresIn / 1000,
-        }),
-      },
-    });
-  } catch (error) {
-    console.error("Authentication error:", error);
-    return redirect("/login");
-  }
-};
 
 export default function Login() {
   const fetcher = useFetcher();
   const [error, setError] = React.useState<string | null>(null);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const unsubscribe = clientAuth.onAuthStateChanged((user) => {
+      if (user) {
+        navigate("/");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   async function handleEmailPasswordLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -70,9 +49,6 @@ export default function Login() {
       );
 
       await createUserIfItNotExists(credential.user);
-      const idToken = await credential.user.getIdToken();
-
-      fetcher.submit({ idToken }, { method: "post", action: "/login" });
     } catch (error) {
       console.error("Login error:", error);
       setError(
