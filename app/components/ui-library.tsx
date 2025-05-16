@@ -17,7 +17,7 @@ export function StickyNoteTextButton({
 }: StickyNoteTextButtonProps) {
   return (
     <button className={cn("", className)} {...props}>
-      <p className="text-link-blue hover:text-link-blue-hover text-5xl align-middle text-center">
+      <p className="text-link-blue-100 hover:text-link-blue-200 text-5xl align-middle text-center">
         {children}
       </p>
     </button>
@@ -41,8 +41,18 @@ export function StickyNoteTextInput({
 
 export function GoBackButton({ className, to }: RemixLinkProps) {
   return (
-    <Link to={to}>
-      <i className={cn("ri-arrow-left-up-line text-6xl text-link-blue hover:text-link-blue-hover", className)}></i>
-    </Link>
+    <div>
+      <Link
+        to={to}
+        className="w-full h-full flex items-center justify-center"
+      >
+        <i
+          className={cn(
+            "ri-arrow-left-up-line text-6xl text-link-blue-100 hover:text-link-blue-200",
+            className
+          )}
+        ></i>
+      </Link>
+    </div>
   );
 }

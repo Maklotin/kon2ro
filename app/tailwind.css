@@ -36,8 +36,12 @@ h1 {
   @apply font-cbboutline text-6xl text-secondary-100;
 }
 
+h2 {
+  @apply font-cooperblack text-5xl text-secondary-100;
+}
+
 p {
-  @apply font-rbeanie text-secondary-300;
+  @apply font-rbeanie text-secondary-300 text-2xl;
 }
 
 @layer components {
@@ -49,6 +53,9 @@ p {
   }
   .font-rbeanie {
     font-family: "ReenieBeanie", sans-serif;
+  }
+  .font-cnew {
+    font-family: 'Courier New', Courier, monospace;
   }
 }
 

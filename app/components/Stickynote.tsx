@@ -25,7 +25,7 @@ export const StickyNote = ({
   className,
   title,
   buttonProps,
-  goBack,
+  goBackTo,
   fields = [],
   method = "post",
   action,
@@ -34,7 +34,7 @@ export const StickyNote = ({
   className?: string;
   title?: string;
   buttonProps?: StickyNoteButtonProps;
-  goBack?: boolean;
+  goBackTo?: string;
   fields?: FieldConfig[];
   method?: "post" | "get";
   action?: string;
@@ -144,16 +144,14 @@ export const StickyNote = ({
           strokeWidth="2"
         />
 
-        {goBack && (
+        {goBackTo && (
           <>
             <path
               d="M560 533.968L554.618 457L468.382 540.374L560 533.968Z"
               fill="#BABD8A"
             />
-            <foreignObject x="500" y="480" width="70" height="70">
-              <div className="w-full h-full flex items-center justify-center">
-                <GoBackButton to="/" />
-              </div>
+            <foreignObject x="503" y="483" width="70" height="70">
+                <GoBackButton to={goBackTo} />
             </foreignObject>
           </>
         )}
@@ -192,11 +190,7 @@ export const StickyNote = ({
           </foreignObject>
         )}
         {/* -------------------------------------------- */}
-        <path
-          d="M101.25 565.782L65 63.0776"
-          stroke="#A80000"
-          strokeWidth="2"
-        />
+        <path d="M101.25 565.782L65 63.0776" stroke="#A80000" strokeWidth="2" />
 
         <text
           transform="translate(66.5445 87.946) rotate(-4)"

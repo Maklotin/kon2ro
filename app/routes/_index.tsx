@@ -1,8 +1,6 @@
-import { redirect, type LoaderFunction, type MetaFunction } from "@remix-run/node";
-import { NavBar } from "~/components/NavBar";
-import { session } from "~/cookies";
-import { auth as serverAuth } from "~/firebase.server";
-
+import {
+  type MetaFunction,
+} from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,32 +9,11 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-
-  const jwt = await session.parse(request.headers.get("Cookie"));
-
-  if (!jwt) {
-    return redirect("/login");
-  }
-  try {
-    const token = serverAuth.verifySessionCookie(jwt);
-
-    // const profile = await getUserProfile(token.uid);  
-
-    return {
-      // profile,
-    };
-  } catch (error) {
-
-    return redirect("/logout");
-  }
-};
 
 export default function Index() {
   return (
-    <div className="flex-col h-screen ">
-      <NavBar />
-      <div></div>
+    <div className="flex-col h-screen">
+      <h2>Velkommen til Kon2ro!</h2>
     </div>
   );
 }

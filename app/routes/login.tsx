@@ -1,4 +1,8 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import React from "react";
 import { StickyNote } from "~/components/Stickynote";
 import {
@@ -8,12 +12,12 @@ import {
 import { auth as clientAuth } from "~/firebase.client";
 import { auth as serverAuth } from "~/firebase.server";
 import { ActionFunction } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
 import { session } from "~/cookies";
 import { redirect } from "@remix-run/node";
+import { createUserIfItNotExists } from "~/utils/user";
 
-// Hentet fra remix firebase auth fra incertase.io: https://invertase.io/blog/remix-firebase-auth
-
+// Hentet fra remix firebase auth tutorial fra incertase.io: https://invertase.io/blog/remix-firebase-auth
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const idToken = form.get("idToken")?.toString();
@@ -22,17 +26,26 @@ export const action: ActionFunction = async ({ request }) => {
     throw new Error("idToken is required");
   }
 
-  await serverAuth.verifyIdToken(idToken);
+  try {
+    const decodedToken = await serverAuth.verifyIdToken(idToken);
 
-  const jwt = await serverAuth.createCustomToken(idToken, {
-    expiresIn: 60 * 60 * 24 * 5 * 1000, // 5 dager
-  });
+    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 dager
+    const sessionCookie = await serverAuth.createSessionCookie(idToken, {
+      expiresIn,
+    });
 
-  return redirect("/", {
-    headers: {
-      "Set-Cookie": await session.serialize(jwt),
-    },
-  });
+    return redirect("/", {
+      headers: {
+        "Set-Cookie": await session.serialize(sessionCookie, {
+          expires: new Date(Date.now() + expiresIn),
+          maxAge: expiresIn / 1000,
+        }),
+      },
+    });
+  } catch (error) {
+    console.error("Authentication error:", error);
+    return redirect("/login");
+  }
 };
 
 export default function Login() {
@@ -41,7 +54,7 @@ export default function Login() {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
 
-  async function handleSubmit(e: React.MouseEvent) {
+  async function handleEmailPasswordLogin(e: React.FormEvent) {
     e.preventDefault();
 
     if (!email || !password) {
@@ -55,6 +68,8 @@ export default function Login() {
         email,
         password
       );
+
+      await createUserIfItNotExists(credential.user);
       const idToken = await credential.user.getIdToken();
 
       fetcher.submit({ idToken }, { method: "post", action: "/login" });
@@ -67,11 +82,36 @@ export default function Login() {
     }
   }
 
+  async function handleGoogleLogin(e: React.FormEvent) {
+    e.preventDefault();
+
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({
+        prompt: "select_account",
+      });
+
+      const result = await signInWithPopup(clientAuth, provider);
+      createUserIfItNotExists(result.user);
+      const idToken = await result.user.getIdToken();
+
+      fetcher.submit({ idToken }, { method: "post", action: "/login" });
+    } catch (error) {
+      console.error("Google login error:", error);
+      setError(
+        "Det oppsto et problem med Google-innlogging, " +
+          (error instanceof Error ? error.message : String(error))
+      );
+    }
+  }
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
+      <h2>Velkommen til Kon2ro!</h2>
+      <p className="text-secondary-100 font-cnew m-2">
+        Logg inn for å bruke Kon2ro
+      </p>
       <StickyNote
         title="Logg inn"
-        goBack={true}
         fields={[
           {
             component: (
@@ -103,7 +143,10 @@ export default function Login() {
           },
           {
             component: (
-              <StickyNoteTextButton onClick={handleSubmit} type="button">
+              <StickyNoteTextButton
+                onClick={handleEmailPasswordLogin}
+                type="button"
+              >
                 Logg inn med epost
               </StickyNoteTextButton>
             ),
@@ -117,10 +160,7 @@ export default function Login() {
           },
           {
             component: (
-              <StickyNoteTextButton
-                onClick={() => console.log("Login with Google clicked")}
-                type="button"
-              >
+              <StickyNoteTextButton onClick={handleGoogleLogin} type="button">
                 Logg inn med Google
               </StickyNoteTextButton>
             ),
@@ -129,6 +169,15 @@ export default function Login() {
           },
         ]}
       />
+      <p className="text-secondary-100">
+        Har du ikke bruker?{" "}
+        <Link
+          to="/register"
+          className="text-link-blue-200 hover:text-link-blue-300"
+        >
+          Opprett bruker her
+        </Link>
+      </p>
       {error && (
         <div className="text-red-500 mt-4 text-center font-rbeanie text-2xl">
           {error}

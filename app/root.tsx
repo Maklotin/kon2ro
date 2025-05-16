@@ -9,6 +9,7 @@ import type { LinksFunction } from "@remix-run/node";
 import { NavBar } from "~/components/NavBar";
 
 import "./tailwind.css";
+import { AuthProvider } from "~/utils/AuthProvider"; // Fixed import path
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -47,11 +48,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <div className="flex-col min-h-screen">
-      <NavBar />
-      <main className="flex-1 flex items-center justify-center">
-        <Outlet />
-      </main>
-    </div>
+    <AuthProvider>
+      <div className="flex-col min-h-screen">
+        <NavBar />
+        <main className="flex-1 flex items-center justify-center">
+          <Outlet />
+        </main>
+      </div>
+    </AuthProvider>
   );
 }

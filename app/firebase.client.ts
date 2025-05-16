@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, inMemoryPersistence, setPersistence } from "firebase/auth";
+import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Hentet fra remix firebase auth fra incertase.io: https://invertase.io/blog/remix-firebase-auth
 const app = initializeApp({
@@ -12,7 +13,12 @@ const app = initializeApp({
 });
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-setPersistence(auth, inMemoryPersistence);
+// if(import.meta.env.DEV) {
+//   connectFirestoreEmulator(db, "localhost", 8080);
+// }
 
-export { auth };
+setPersistence(auth, browserLocalPersistence);
+
+export { auth, db };
