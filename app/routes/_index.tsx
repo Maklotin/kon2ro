@@ -11,6 +11,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const [groups, setGroups] = React.useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function Index() {
         ) {
           navigate("/create-group?message=noGroup");
         }
+        setGroups(data.groups);
       }
     };
 
@@ -44,6 +46,11 @@ export default function Index() {
       <p className="text-secondary-100 font-cnew">
         Du er medlem av en eller flere grupper for øyeblikket.
       </p>
+      <ul>
+        {groups.map((group) => (
+          <li key={group}>{group}</li>
+        ))}
+      </ul>
     </div>
   );
 }

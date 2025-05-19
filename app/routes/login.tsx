@@ -23,6 +23,7 @@ export const meta: MetaFunction = () => {
 };
 
 // Deler av koden (spesielt Google login) er hentet fra remix firebase auth tutorial fra incertase.io: https://invertase.io/blog/remix-firebase-auth
+// createUserIfItNotExists() er også hentet fra samme kilde. 
 
 export default function Login() {
   const [error, setError] = React.useState<string | null>(null);

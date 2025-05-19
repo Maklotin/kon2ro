@@ -2,6 +2,8 @@ import { db } from "~/firebase.client";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 
+// Alt her er hentet fra remix firebase auth tutorial fra incertase.io: https://invertase.io/blog/remix-firebase-auth
+
 export async function createUserIfItNotExists(user: User, name?: string) {
   if (!user.uid) return false;
 
