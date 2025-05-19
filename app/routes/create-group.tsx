@@ -60,7 +60,7 @@ export default function CreateGroup() {
     }
 
     try {
-      // query-en er hentet fra Github Copliot med ChatGPT-4o, det samme gjelder  "duplicateGroupSnapshot"
+      // query hentet fra Github Copilot medmodell GPT-4o
       const duplicateGroupQuery = query(
         collection(db, "groups"),
         where("name", "==", groupName)
@@ -73,13 +73,27 @@ export default function CreateGroup() {
       }
 
       const groupRef = doc(collection(db, "groups"));
+      const officeIds: string[] = [];
+
+      // kode for å sette inn offices i database er hentet fra Github Copilot medmodell GPT-4o
+      for (const officeName of offices) {
+        const officeRef = doc(collection(db, "offices"));
+        officeIds.push(officeRef.id);
+
+        await setDoc(officeRef, {
+          name: officeName.trim(),
+          address: "",
+          description: "",
+          group: groupRef.id,
+        });
+      }
+
       await setDoc(groupRef, {
         memberUids: [userId],
         name: groupName,
-        offices,
+        offices: officeIds,
       });
 
-      // hentet fra Github Copilot med ChatGPT-4o
       const userRef = doc(db, "users", userId!);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
@@ -87,6 +101,7 @@ export default function CreateGroup() {
         const updatedGroups = [...(userData.groups || []), groupRef.id];
         await setDoc(userRef, { ...userData, groups: updatedGroups });
       }
+
       navigate("/");
     } catch (error) {
       console.error("Error creating group:", error);
@@ -98,20 +113,19 @@ export default function CreateGroup() {
       <div className="flex items-center justify-between w-screen">
         <div className="w-1/3"></div>
         <div className="flex flex-col items-center">
-          <h2>Velkommen til Kon2ro!</h2>
+          <h2 className={noGroups ? undefined : "mb-10"}>{
+          noGroups ? "Velkommen til Kon2ro!" : "Opprett ny gruppe"}</h2>
           {searchParams.get("message") === "noGroup" && (
             <p className="text-red-500 font-cnew mt-2">
               Du er ikke medlem av noe gruppe.
             </p>
           )}
           <p className="text-secondary-100 font-cnew mb-2">
-            {noGroups
-              ? "Opprett gruppe for å bruke Kon2ro"
-              : "Opprett ny gruppe"}
+            {noGroups && "Opprett gruppe for å bruke Kon2ro"}
           </p>
           <StickyNote
             title="Opprett gruppe"
-            goBackTo="/login"
+            goBackTo={noGroups ? "/login" : "/"}
             fields={[
               {
                 component: (
@@ -171,7 +185,7 @@ export default function CreateGroup() {
 
         <div className="flex flex-col justify-between h-[38rem] w-1/3">
           <div></div>
-          <p className="text-secondary-100">Tilbake til logg inn siden</p>
+          <p className="text-secondary-100">{noGroups ? "Tilbake til logg inn siden" : "Tilbake til hjemmesiden"}</p>
         </div>
       </div>
       {error && (

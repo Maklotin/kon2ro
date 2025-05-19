@@ -9,7 +9,7 @@ export function NavBar() {
     <nav className="flex items-center w-screen">
       <div className="flex justify-between w-full m-4">
         <Link to="/">
-          <h1>Kon2ro</h1>
+          <h1 className="hover:text-secondary-hover-100">Kon2ro</h1>
         </Link>
         {!loading && user ? (
           <div className="flex items-center gap-4">
@@ -17,10 +17,10 @@ export function NavBar() {
               {user.displayName || user.email}
             </span>
             <Link to="/logout">
-              <i className="ri-logout-box-line text-secondary-100 text-3xl hover:text-secondary-200"></i>
+              <i className="ri-logout-box-line text-secondary-100 text-3xl hover:text-secondary-hover-100"></i>
             </Link>
             <button>
-              <i className="ri-user-settings-fill text-secondary-100 text-6xl"></i>
+              <i className="ri-user-settings-fill text-secondary-100 text-6xl hover:text-secondary-hover-100"></i>
             </button>
           </div>
         ) : null}

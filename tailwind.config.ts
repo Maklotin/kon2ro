@@ -17,7 +17,7 @@ export default {
           "CooperBlack",
           "CBBOutline",
           "Reenie-Beanie",
-          "Courier-New"
+          "Courier-New",
         ],
       },
       colors: {
@@ -25,6 +25,7 @@ export default {
         "secondary-100": "#F3F6BB",
         "secondary-200": "#BABD8A",
         "secondary-300": "#585B19",
+        "secondary-hover-100": "#BDDC8E",
         "red-line-100": "#A80000",
         "red-line-200": "#6B0000",
         "link-blue-100": "#012D91",

@@ -40,6 +40,10 @@ h2 {
   @apply font-cooperblack text-5xl text-secondary-100;
 }
 
+h3 {
+  @apply font-cooperblack text-4xl text-secondary-100;
+}
+
 p {
   @apply font-rbeanie text-secondary-300 text-2xl;
 }

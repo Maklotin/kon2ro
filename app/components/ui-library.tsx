@@ -3,6 +3,8 @@ import { cn } from "~/utils/misc";
 import React from "react";
 import { Link } from "@remix-run/react";
 import { RemixLinkProps } from "@remix-run/react/dist/components";
+import { StickyNote } from "./Stickynote";
+import { Office } from "~/schema/group-office.schema";
 
 type StickyNoteTextButtonProps =
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -42,10 +44,7 @@ export function StickyNoteTextInput({
 export function GoBackButton({ className, to }: RemixLinkProps) {
   return (
     <div>
-      <Link
-        to={to}
-        className="w-full h-full flex items-center justify-center"
-      >
+      <Link to={to} className="w-full h-full flex items-center justify-center">
         <i
           className={cn(
             "ri-arrow-left-up-line text-6xl text-link-blue-100 hover:text-link-blue-200",
@@ -53,6 +52,56 @@ export function GoBackButton({ className, to }: RemixLinkProps) {
           )}
         ></i>
       </Link>
+    </div>
+  );
+}
+
+export function OfficeStickyNote({
+  className,
+  name,
+  description,
+  address,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & Office) {
+  return (
+    <div className="scale-75" {...props}>
+      <StickyNote
+        title={name}
+        fields={[
+          {
+            component: (
+              <button>
+                <i className="ri-settings-3-line text-6xl text-secondary-300 hover:text-secondary-hover-100"></i>
+              </button>
+            ),
+            x: 460,
+            y: 70,
+          },
+          {
+            component: <p>{description}</p>,
+            x: 60,
+            y: 175,
+          },
+          {
+            component: (
+              <i className="ri-building-line text-[20rem] text-secondary-300 text-opacity-65"></i>
+            ),
+            x: 120,
+            y: 120,
+            width: 360,
+            height: 360,
+          },
+          {
+            component: (
+              <StickyNoteTextButton type="button">
+                {address}
+              </StickyNoteTextButton>
+            ),
+            x: 120,
+            y: 500,
+          },
+        ]}
+      />
     </div>
   );
 }
