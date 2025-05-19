@@ -1,7 +1,14 @@
 import { useEffect } from "react";
 import { auth as clientAuth } from "~/firebase.client";
 
-import { useNavigate } from "@remix-run/react";
+import { MetaFunction, useNavigate } from "@remix-run/react";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Logger ut... - Kon2ro" },
+    { name: "beskrivelse kommer...", content: "Logger ut av Kon2ro" },
+  ];
+};
 
 export default function Logout() {
   const navigate = useNavigate();

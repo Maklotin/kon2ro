@@ -6,11 +6,17 @@ import {
 } from "~/components/ui-library";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth as clientAuth } from "~/firebase.client";
-import { auth as serverAuth } from "~/firebase.server";
 import { createUserIfItNotExists } from "~/utils/user";
-import { useFetcher, useNavigate } from "@remix-run/react";
+import { MetaFunction, useNavigate } from "@remix-run/react";
 // import { ActionFunction, redirect } from "@remix-run/node";
 // import { session } from "~/cookies";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Opprett bruker - Kon2ro" },
+    { name: "beskrivelse kommer...", content: "Opprett Kon2ro bruker" },
+  ];
+};
 
 // export const action: ActionFunction = async ({ request }) => {
 //   const form = await request.formData();

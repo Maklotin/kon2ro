@@ -10,19 +10,26 @@ import {
   StickyNoteTextInput,
 } from "~/components/ui-library";
 import { auth as clientAuth } from "~/firebase.client";
-import { Link, redirect, useFetcher, useNavigate } from "@remix-run/react";
+import { Link, MetaFunction, useNavigate } from "@remix-run/react";
 
 import { createUserIfItNotExists } from "~/utils/user";
+import { FirebaseError } from "firebase/app";
 
-// Hentet fra remix firebase auth tutorial fra incertase.io: https://invertase.io/blog/remix-firebase-auth
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Logg inn - Kon2ro" },
+    { name: "beskrivelse...", content: "Velkommen til Kon2ro" },
+  ];
+};
+
+// Deler av koden (spesielt Google login) er hentet fra remix firebase auth tutorial fra incertase.io: https://invertase.io/blog/remix-firebase-auth
 
 export default function Login() {
-  const fetcher = useFetcher();
   const [error, setError] = React.useState<string | null>(null);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const navigate = useNavigate();
-  
+
   React.useEffect(() => {
     const unsubscribe = clientAuth.onAuthStateChanged((user) => {
       if (user) {
@@ -37,7 +44,7 @@ export default function Login() {
     e.preventDefault();
 
     if (!email || !password) {
-      setError("Epost og passord er påkrevd");
+      setError("Vennligst fyll ut epost og passord");
       return;
     }
 
@@ -51,10 +58,31 @@ export default function Login() {
       await createUserIfItNotExists(credential.user);
     } catch (error) {
       console.error("Login error:", error);
-      setError(
-        "Det oppsto et problem, " +
-          (error instanceof Error ? error.message : String(error))
-      );
+      // Fant hjelp med å sette riktig type fra "Juk" fra Stackoverflow https://stackoverflow.com/questions/40157541/how-do-you-access-the-code-property-of-a-firebaseerror-in-angularfire-typesc
+      if (error instanceof FirebaseError) {
+        // error kodene er hentet fra Firebase sin dokumentasjon. https://firebase.google.com/docs/auth/admin/errors
+        if (error.code === "auth/invalid-credential") {
+          setError("Feil epost eller passord");
+        } else if (error.code === "auth/user-not-found") {
+          setError("Bruker finnes ikke");
+        } else if (error.code === "auth/wrong-password") {
+          setError("Feil passord");
+        } else if (error.code === "invalid-email") {
+          setError("Ugyldig epostadresse");
+        } else {
+          setError(
+            "Det oppsto et problem, " +
+              (error instanceof FirebaseError ? error.message : String(error)) +
+              " Vennligst prøv igjen eller kontakt support."
+          );
+        }
+      } else {
+        setError(
+          "Det oppsto et problem, " +
+            (error instanceof Error ? error.message : String(error)) +
+            " Vennligst prøv igjen eller kontakt support."
+        );
+      }
     }
   }
 
@@ -69,9 +97,7 @@ export default function Login() {
 
       const result = await signInWithPopup(clientAuth, provider);
       createUserIfItNotExists(result.user);
-      const idToken = await result.user.getIdToken();
 
-      fetcher.submit({ idToken }, { method: "post", action: "/login" });
     } catch (error) {
       console.error("Google login error:", error);
       setError(
