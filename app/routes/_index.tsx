@@ -86,12 +86,16 @@ export default function Index() {
   }
 
   return (
-    <div className="flex-col items-center h-screen">
+    <div className="flex-col items-center">
       <h1 className="text-center">Velg Kontor</h1>
       <ul className="flex flex-col items-center justify-center gap-4 mt-10">
         {groups.map((group) => (
           <li key={group.name}>
-            <h3 className="text-center">{group.name}</h3>
+            <div className="flex justify-evenly items-center w-screen">
+              <hr className="w-1/3 border-secondary-100 border-b-2" />
+              <h3 className="text-center">{group.name}</h3>
+              <hr className="w-1/3 border-secondary-100 border-b-2" />
+            </div>
             <ul className="flex flex-row items-center justify-center gap-4 mt-4">
               {offices
                 .filter((office) => group.offices.includes(office.id))
@@ -112,7 +116,7 @@ export default function Index() {
       </ul>
       <div className="flex items-center justify-center mt-10">
         <button
-          className="bg-secondary-100 px-4 py-2 rounded hover:bg-secondary-hover-100 transition-all duration-300 hover:transform hover:scale-105"
+          className="bg-secondary-100 px-4 py-2 rounded hover:bg-secondary-hover-100 transition-all duration-300 hover:transform hover:scale-105 mb-8"
           onClick={() => navigate("/create-group")}
         >
           <p className="hover:bg font-cooperblack">Opprett ny gruppe</p>

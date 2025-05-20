@@ -78,10 +78,11 @@ export default function CreateGroup() {
         officeIds.push(officeRef.id);
 
         await setDoc(officeRef, {
-          name: officeName.trim(),
+          name: officeName.trim().replace(/_/g, "-"),
           address: "",
           description: "",
           group: groupRef.id,
+          id: officeRef.id,
         });
       }
 

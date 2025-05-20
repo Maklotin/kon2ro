@@ -113,7 +113,7 @@ p {
 }
 
 .fc-timegrid-col.fc-day-today {
-  @apply bg-secondary-hover-100 !important;
+  @apply bg-secondary-hover-100 font-cnew !important;
 }
 
 .fc-timegrid-slot-label-cushion,
@@ -135,10 +135,6 @@ p {
   @apply font-cnew text-secondary-100 !important;
 }
 
-.fc-event {
-  @apply border-2 border-[#3d1d1d] bg-[#673030] text-[#3d1d1d] !important;
-}
-
 .fc-event-title {
   @apply font-cnew text-secondary-100 !important;
 }
@@ -148,7 +144,7 @@ p {
 }
 
 .fc-today-button.fc-button.fc-button-primary {
-  @apply bg-primary text-secondary-100 !important;
+  @apply bg-primary text-secondary-100 font-cnew !important;
 }
 
 .fc-button.fc-button-primary {
