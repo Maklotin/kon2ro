@@ -3,7 +3,7 @@ import { Form } from "@remix-run/react";
 import React from "react";
 
 {
-  /* alle tpyes definert (bortsett fra className og title) er hentet fra Github Copilot med bruk av modellen Claude 3.7 Sonnet */
+  /* alle types definert (bortsett fra className og title) er hentet fra Github Copilot med bruk av modellen Claude 3.7 Sonnet */
 }
 export type StickyNoteButtonProps = {
   className?: string;
@@ -30,6 +30,7 @@ export const StickyNote = ({
   method = "post",
   action,
   onSubmit,
+  fitText = false,
 }: {
   className?: string;
   title?: string;
@@ -39,6 +40,7 @@ export const StickyNote = ({
   method?: "post" | "get";
   action?: string;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  fitText?: boolean;
 }) => {
   return (
     <Form
@@ -151,7 +153,7 @@ export const StickyNote = ({
               fill="#BABD8A"
             />
             <foreignObject x="503" y="483" width="70" height="70">
-                <GoBackButton to={goBackTo} />
+              <GoBackButton to={goBackTo} />
             </foreignObject>
           </>
         )}
@@ -200,6 +202,9 @@ export const StickyNote = ({
           fontFamily="Cooper Black"
           fontSize="48"
           letterSpacing="0em"
+          {...(fitText
+            ? { textLength: 350, lengthAdjust: "spacingAndGlyphs" }
+            : {})}
         >
           <tspan x="200" y="44.0352" textAnchor="middle">
             {title}

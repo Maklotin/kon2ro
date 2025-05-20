@@ -4,10 +4,7 @@ import { auth as clientAuth } from "~/firebase.client";
 import { MetaFunction, useNavigate } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "Logger ut... - Kon2ro" },
-    { name: "beskrivelse kommer...", content: "Logger ut av Kon2ro" },
-  ];
+  return [{ title: "Logger ut... - Kon2ro" }];
 };
 
 export default function Logout() {

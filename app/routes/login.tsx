@@ -16,14 +16,11 @@ import { createUserIfItNotExists } from "~/utils/user";
 import { FirebaseError } from "firebase/app";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "Logg inn - Kon2ro" },
-    { name: "beskrivelse...", content: "Velkommen til Kon2ro" },
-  ];
+  return [{ title: "Logg inn - Kon2ro" }];
 };
 
 // Deler av koden (spesielt Google login) er hentet fra remix firebase auth tutorial fra incertase.io: https://invertase.io/blog/remix-firebase-auth
-// createUserIfItNotExists() er også hentet fra samme kilde. 
+// createUserIfItNotExists() er også hentet fra samme kilde.
 
 export default function Login() {
   const [error, setError] = React.useState<string | null>(null);
@@ -98,7 +95,6 @@ export default function Login() {
 
       const result = await signInWithPopup(clientAuth, provider);
       createUserIfItNotExists(result.user);
-
     } catch (error) {
       console.error("Google login error:", error);
       setError(

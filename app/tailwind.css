@@ -26,10 +26,6 @@
 html,
 body {
   @apply bg-primary;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
 }
 
 h1 {
@@ -48,6 +44,117 @@ p {
   @apply font-rbeanie text-secondary-300 text-2xl;
 }
 
+.fc {
+  @apply w-full h-[38rem];
+}
+
+.fc-toolbar-title,
+.fc-col-header-cell-cushion,
+.kontor-tittel {
+  @apply font-cooperblack text-secondary-100;
+}
+
+.calendar-div .fc-button,
+.calendar-div .fc-button-primary {
+  @apply bg-transparent flex items-center m-4 transition-all duration-500 text-secondary-100 text-base font-cooperblack tracking-wide outline-none border border-secondary-100 shadow-[10px_19px_17px_-13px_rgba(0,0,0,0.7)] rounded-[15.9375rem_0.9375rem_14.0625rem_0.9375rem/0.9375rem_14.0625rem_0.9375rem_15.9375rem];
+}
+
+.calendar-div .fc-button:hover,
+.calendar-div .fc-button-primary:hover {
+  @apply border-secondary-hover-100 text-secondary-hover-100 bg-transparent;
+}
+
+.calendar-div .fc-button-primary:disabled {
+  @apply cursor-not-allowed opacity-50 bg-transparent border-secondary-100 text-secondary-100;
+}
+
+.fc-scrollgrid-section-body {
+  @apply bg-secondary-100 shadow-[10px_19px_17px_-13px_black];
+}
+
+.fc-timegrid-slot-label {
+  @apply bg-primary;
+}
+
+.fc-toolbar-chunk {
+  @apply flex flex-row justify-between;
+}
+
+.fc-scrollgrid {
+  @apply border border-secondary-hover-100 rounded-md;
+}
+
+.fc-scrollgrid-liquid,
+.fc-scrollgrid-section,
+.fc-scrollgrid-section-body,
+.fc-scrollgrid-section-header,
+.fc-col-header-cell,
+.fc-daygrid-event,
+.fc-daygrid-event-harness,
+.fc-daygrid-block-event,
+.fc-daygrid-dot-event {
+  @apply border border-secondary-100 !important;
+}
+
+.fc-timegrid-axis {
+  @apply border-b border-secondary-100 !important;
+}
+
+.fc-timegrid-slot {
+  @apply border-secondary-100 !important;
+}
+
+.fc-daygrid-day {
+  @apply border border-primary bg-secondary-100 !important;
+}
+
+.fc-daygrid-day.fc-day-today {
+  @apply bg-secondary-hover-100 !important;
+}
+
+.fc-timegrid-col.fc-day-today {
+  @apply bg-secondary-hover-100 !important;
+}
+
+.fc-timegrid-slot-label-cushion,
+.fc-timegrid-slot-label-cushion .fc-scrollgrid-shrink-cushion {
+  @apply font-cnew text-secondary-100 !important;
+}
+
+.fc-daygrid-day,
+.fc-daygrid-event,
+.fc-daygrid-event-harness,
+.fc-daygrid-block-event,
+.fc-daygrid-dot-event,
+.fc-timegrid-slot-lane,
+.fc-timegrid-col {
+  @apply border-primary !important;
+}
+
+.fc-col-header-cell-cushion {
+  @apply font-cnew text-secondary-100 !important;
+}
+
+.fc-event {
+  @apply border-2 border-[#3d1d1d] bg-[#673030] text-[#3d1d1d] !important;
+}
+
+.fc-event-title {
+  @apply font-cnew text-secondary-100 !important;
+}
+
+.fc-event-time {
+  @apply font-cnew text-secondary-hover-100 !important;
+}
+
+.fc-today-button.fc-button.fc-button-primary {
+  @apply bg-primary text-secondary-100 !important;
+}
+
+.fc-button.fc-button-primary {
+  @apply bg-primary text-secondary-100 !important;
+}
+
 @layer components {
   .font-cooperblack {
     font-family: "CooperBlack", sans-serif;
@@ -59,7 +166,7 @@ p {
     font-family: "ReenieBeanie", sans-serif;
   }
   .font-cnew {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
   }
 }
 
@@ -70,8 +177,8 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-text-fill-color: #585B19 !important;
-  color: #585B19 !important;
-  caret-color: #585B19 !important;
+  -webkit-text-fill-color: #585b19 !important;
+  color: #585b19 !important;
+  caret-color: #585b19 !important;
   transition: background-color 5000s ease-in-out 0s;
 }

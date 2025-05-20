@@ -63,45 +63,50 @@ export function OfficeStickyNote({
   address,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & Office) {
+  const officeName = name.replace(/\s+/g, "_");
   return (
     <div className="scale-75" {...props}>
-      <StickyNote
-        title={name}
-        fields={[
-          {
-            component: (
-              <button>
-                <i className="ri-settings-3-line text-6xl text-secondary-300 hover:text-secondary-hover-100"></i>
-              </button>
-            ),
-            x: 460,
-            y: 70,
-          },
-          {
-            component: <p>{description}</p>,
-            x: 60,
-            y: 175,
-          },
-          {
-            component: (
-              <i className="ri-building-line text-[20rem] text-secondary-300 text-opacity-65"></i>
-            ),
-            x: 120,
-            y: 120,
-            width: 360,
-            height: 360,
-          },
-          {
-            component: (
-              <StickyNoteTextButton type="button">
-                {address}
-              </StickyNoteTextButton>
-            ),
-            x: 120,
-            y: 500,
-          },
-        ]}
-      />
+      <Link to={`/office/${officeName}`}>
+        <StickyNote
+          title={name}
+          fitText={true}
+          className="hover:scale-105 transition-all duration-300 active:scale-95"
+          fields={[
+            {
+              component: (
+                <button>
+                  <i className="ri-settings-3-line text-6xl text-secondary-300 hover:text-secondary-hover-100"></i>
+                </button>
+              ),
+              x: 460,
+              y: 70,
+            },
+            {
+              component: <p>{description}</p>,
+              x: 60,
+              y: 175,
+            },
+            {
+              component: (
+                <i className="ri-building-line text-[20rem] text-secondary-300 text-opacity-65"></i>
+              ),
+              x: 120,
+              y: 120,
+              width: 360,
+              height: 360,
+            },
+            {
+              component: (
+                <StickyNoteTextButton type="button">
+                  {address}
+                </StickyNoteTextButton>
+              ),
+              x: 120,
+              y: 500,
+            },
+          ]}
+        />
+      </Link>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MetaFunction, useNavigate } from "@remix-run/react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth as clientAuth, db } from "~/firebase.client";
@@ -6,19 +6,18 @@ import { Group, Office } from "~/schema/group-office.schema";
 import { OfficeStickyNote } from "~/components/ui-library";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "Velg kontor - Kon2ro" },
-    { name: "beskrivelse kommer...", content: "Kon2ro hjemmeside" },
-  ];
+  return [{ title: "Velg kontor - Kon2ro" }];
 };
 
 export default function Index() {
-  const [groups, setGroups] = React.useState<Group[]>([]);
-  const [offices, setOffices] = React.useState<Office[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [offices, setOffices] = useState<Office[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkUserGroup = async () => {
+      setLoading(true);
       const currentUser = clientAuth.currentUser;
 
       if (!currentUser) {
@@ -70,28 +69,41 @@ export default function Index() {
         setGroups(userGroups);
         setOffices(userOffices);
       }
+      setLoading(false);
     };
 
     checkUserGroup();
   }, [navigate]);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-secondary-100 font-cooperblack text-2xl">
+          Laster...
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex-col h-screen">
-      <h2>Velg Kontor</h2>
+    <div className="flex-col items-center h-screen">
+      <h1 className="text-center">Velg Kontor</h1>
       <ul className="flex flex-col items-center justify-center gap-4 mt-10">
         {groups.map((group) => (
           <li key={group.name}>
-            <h3>{group.name}</h3>
-            <ul>
+            <h3 className="text-center">{group.name}</h3>
+            <ul className="flex flex-row items-center justify-center gap-4 mt-4">
               {offices
                 .filter((office) => group.offices.includes(office.id))
                 .map((office) => (
                   <li key={office.id}>
                     <OfficeStickyNote
+                      id={office.id}
                       name={office.name}
                       description={office?.description}
                       address={office?.address}
-                      />
+                      group={group.name}
+                    />
                   </li>
                 ))}
             </ul>

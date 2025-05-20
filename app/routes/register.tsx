@@ -12,10 +12,7 @@ import { MetaFunction, useNavigate } from "@remix-run/react";
 // import { session } from "~/cookies";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "Opprett bruker - Kon2ro" },
-    { name: "beskrivelse kommer...", content: "Opprett Kon2ro bruker" },
-  ];
+  return [{ title: "Opprett bruker - Kon2ro" }];
 };
 
 // export const action: ActionFunction = async ({ request }) => {
@@ -67,47 +64,47 @@ export default function Register() {
     return () => unsubscribe();
   }, []);
 
-async function handleRegister(e: React.FormEvent) {
-  e.preventDefault();
+  async function handleRegister(e: React.FormEvent) {
+    e.preventDefault();
 
-  if (!email || !password || !confirmPassword || !name) {
-    setError("Vennligst fyll ut alle feltene");
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    setError("Passordene må være like");
-    return;
-  }
-
-  try {
-    const credential = await createUserWithEmailAndPassword(
-      clientAuth,
-      email,
-      password
-    );
-
-    const result = await createUserIfItNotExists(credential.user, name);
-
-    if (result && "error" in result && result.error) {
-      console.error("Error creating user document:", result.error);
-      setError("Det oppsto et problem med å opprette brukeren");
+    if (!email || !password || !confirmPassword || !name) {
+      setError("Vennligst fyll ut alle feltene");
       return;
     }
 
-    // Sign out the user after registration
-    await clientAuth.signOut();
+    if (password !== confirmPassword) {
+      setError("Passordene må være like");
+      return;
+    }
 
-    // Redirect to the login page
-    navigate("/login");
-  } catch (error) {
-    if (error instanceof Error) {
-      setError(error.message);
-    } else {
-      setError("Noe gikk galt");
+    try {
+      const credential = await createUserWithEmailAndPassword(
+        clientAuth,
+        email,
+        password
+      );
+
+      const result = await createUserIfItNotExists(credential.user, name);
+
+      if (result && "error" in result && result.error) {
+        console.error("Error creating user document:", result.error);
+        setError("Det oppsto et problem med å opprette brukeren");
+        return;
+      }
+
+      // Sign out the user after registration
+      await clientAuth.signOut();
+
+      // Redirect to the login page
+      navigate("/login");
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Noe gikk galt");
+      }
     }
   }
-}
   return (
     <div className="flex items-center justify-between w-screen">
       <div className="w-1/3"></div>

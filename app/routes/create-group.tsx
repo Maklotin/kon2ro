@@ -17,10 +17,7 @@ import {
 import { auth as clientAuth, db } from "~/firebase.client";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "Opprett gruppe - Kon2ro" },
-    { name: "beskrivelse kommer...", content: "Opprett gruppe" },
-  ];
+  return [{ title: "Opprett gruppe - Kon2ro" }];
 };
 
 export default function CreateGroup() {
@@ -113,8 +110,9 @@ export default function CreateGroup() {
       <div className="flex items-center justify-between w-screen">
         <div className="w-1/3"></div>
         <div className="flex flex-col items-center">
-          <h2 className={noGroups ? undefined : "mb-10"}>{
-          noGroups ? "Velkommen til Kon2ro!" : "Opprett ny gruppe"}</h2>
+          <h2 className={noGroups ? undefined : "mb-10"}>
+            {noGroups ? "Velkommen til Kon2ro!" : "Opprett ny gruppe"}
+          </h2>
           {searchParams.get("message") === "noGroup" && (
             <p className="text-red-500 font-cnew mt-2">
               Du er ikke medlem av noe gruppe.
@@ -185,7 +183,11 @@ export default function CreateGroup() {
 
         <div className="flex flex-col justify-between h-[38rem] w-1/3">
           <div></div>
-          <p className="text-secondary-100">{noGroups ? "Tilbake til logg inn siden" : "Tilbake til hjemmesiden"}</p>
+          <p className="text-secondary-100">
+            {noGroups
+              ? "Tilbake til logg inn siden"
+              : "Tilbake til hjemmesiden"}
+          </p>
         </div>
       </div>
       {error && (
