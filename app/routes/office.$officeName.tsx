@@ -16,6 +16,7 @@ import {
   doc,
   addDoc,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "~/components/ui-library";
@@ -114,7 +115,7 @@ export default function Calendar() {
 
       await navigator.clipboard.writeText(inviteLink);
 
-      alert("Invite link copied to clipboard!");
+      alert("Invitasjonslenke er kopiert til utklippstavlen!");
     } catch (error) {
       console.error("Error generating invite link:", error);
       setError("Failed to generate invite link.");
@@ -150,17 +151,32 @@ export default function Calendar() {
   const handleDateSelect = async (selectInfo: any) => {
     if (!officeData || !username) return;
 
-    console.log("office ID:", officeData.id);
-
-    const newEvent = {
-      title: `${username} - På kontoret`,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      officeId: officeData.id,
-      uid: clientAuth.currentUser?.uid,
-    };
+    const currentUser = clientAuth.currentUser;
+    if (!currentUser) {
+      alert("Du må være logget inn for å opprette en hendelse.");
+      return;
+    }
 
     try {
+      const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+      if (!userDoc.exists()) {
+        alert("Brukerdata ikke funnet.");
+        return;
+      }
+
+      const userData = userDoc.data();
+      const userColor = userData.color || { bg: "#673030", border: "#3d1d1d" };
+
+      const newEvent = {
+        title: `${username} - På kontoret`,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        officeId: officeData.id,
+        uid: currentUser.uid,
+        backgroundColor: userColor.bg,
+        borderColor: userColor.border,
+      };
+
       const eventRef = await addDoc(collection(db, "timestamps"), newEvent);
 
       setEvents((prevEvents) => [
@@ -168,18 +184,38 @@ export default function Calendar() {
         { id: eventRef.id, ...newEvent },
       ]);
     } catch (error) {
+      console.error("Error creating event:", error);
       setError("Det oppsto et problem under lagring av tidspunktet");
     }
   };
 
-  const handleEventClick = (clickInfo: any) => {
+  const handleEventClick = async (clickInfo: any) => {
+    const currentUser = clientAuth.currentUser;
+    if (!currentUser) {
+      alert("Du må være logget inn for å redigere tidspunkt.");
+      return;
+    }
+
+    const eventCreatorUid = clickInfo.event.extendedProps.uid;
+    if (eventCreatorUid !== currentUser.uid) {
+      alert("Du kan ikke redigere andres tidspunkt.");
+      return;
+    }
+
     if (confirm("Er du sikker på at du vil slette dette tidspunktet?")) {
-      setEvents((prevEvents) =>
-        prevEvents.filter((event) => event.id !== clickInfo.event.id)
-      );
+      try {
+        await deleteDoc(doc(db, "timestamps", clickInfo.event.id));
+
+        setEvents((prevEvents) =>
+          prevEvents.filter((event) => event.id !== clickInfo.event.id)
+        );
+
+      } catch (error) {
+        console.error("Error deleting event:", error);
+        alert("Det oppsto et problem under sletting av tidspunktet.");
+      }
     }
   };
-
   const options: CalendarOptions = {
     initialView: "timeGridWeek",
     plugins: [dayGridPlugin, timegridPlugin, interactionPlugin],
@@ -230,10 +266,7 @@ export default function Calendar() {
     <div className="flex flex-col items-center h-1/2 w-2/3">
       <h1>{officeName}</h1>
       <FullCalendar {...options} height={700} />
-      <Button
-      className="mt-4"
-        onClick={generateInviteLink}
-      >
+      <Button className="mt-4" onClick={generateInviteLink}>
         <p>Generer Invitasjonslenke</p>
       </Button>
     </div>

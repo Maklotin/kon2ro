@@ -116,7 +116,7 @@ export default function Login() {
     <div className="flex flex-col items-center justify-center">
       <h2>Velkommen til Kon2ro!</h2>
       {redirectTo !== "/" ? (
-        <p className="text-red-line-100">
+        <p className="text-red-line-100 font-cnew">
           Du må logge inn for å bli med i gruppa
         </p>
       ) : (

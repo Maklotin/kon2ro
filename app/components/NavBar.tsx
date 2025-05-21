@@ -19,9 +19,9 @@ export function NavBar() {
             <Link to="/logout">
               <i className="ri-logout-box-line text-secondary-100 text-3xl hover:text-secondary-hover-100"></i>
             </Link>
-            <button>
+            <Link to="/user-settings">
               <i className="ri-user-settings-fill text-secondary-100 text-6xl hover:text-secondary-hover-100"></i>
-            </button>
+            </Link>
           </div>
         ) : null}
       </div>

@@ -76,14 +76,29 @@ export default function CreateGroup() {
       for (const officeName of offices) {
         const officeRef = doc(collection(db, "offices"));
         officeIds.push(officeRef.id);
+
         await setDoc(officeRef, {
-          name: officeName.trim().replace(/_/g, "-"),
+          name: officeName.trim(),
           address: "",
           description: "",
           group: groupRef.id,
           id: officeRef.id,
         });
       }
+
+      const colors = [
+        { bg: "#673030", border: "#3d1d1d" },
+        { bg: "#606c38", border: "#283618" },
+        { bg: "#003554", border: "#051923" },
+        { bg: "#3c096c", border: "#240046" },
+        { bg: "#2d6a4f", border: "#1b4332" },
+        { bg: "#33415c", border: "#001233" },
+        { bg: "#800f2f", border: "#590d22" },
+        { bg: "#7f4f24", border: "#582f0e" },
+        { bg: "#363014", border: "#1f1b0d" },
+      ];
+
+      const assignedColor = colors[0];
 
       await setDoc(groupRef, {
         memberUids: [userId],
@@ -95,20 +110,6 @@ export default function CreateGroup() {
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
         const userData = userDoc.data();
-
-        const colors = [
-          { bg: "#673030", border: "#3d1d1d" },
-          { bg: "#606c38", border: "#283618" },
-          { bg: "#003554", border: "#051923" },
-          { bg: "#3c096c", border: "#240046" },
-          { bg: "#2d6a4f", border: "#1b4332" },
-          { bg: "#33415c", border: "#001233" },
-          { bg: "#800f2f", border: "#590d22" },
-          { bg: "#7f4f24", border: "#582f0e" },
-          { bg: "#363014", border: "#1f1b0d" },
-        ];
-        const assignedColor = colors[Math.floor(Math.random() * colors.length)];
-
         await setDoc(userRef, {
           ...userData,
           color: assignedColor,

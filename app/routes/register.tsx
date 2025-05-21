@@ -7,7 +7,7 @@ import {
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth as clientAuth } from "~/firebase.client";
 import { createUserIfItNotExists } from "~/utils/user";
-import { MetaFunction, useNavigate } from "@remix-run/react";
+import { Link, MetaFunction, useNavigate } from "@remix-run/react";
 // import { ActionFunction, redirect } from "@remix-run/node";
 // import { session } from "~/cookies";
 
@@ -187,6 +187,14 @@ export default function Register() {
             },
           ]}
         />
+        <p className="text-3xl font-cnew underline">
+          <Link
+            to="/gdpr"
+            className="text-link-blue-200 hover:text-link-blue-300 font"
+          >
+            Personvernserklæring
+          </Link>
+        </p>
       </div>
 
       <div className="flex flex-col justify-between h-[36rem] w-1/3">

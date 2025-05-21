@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MetaFunction, useNavigate } from "@remix-run/react";
+import { Link, MetaFunction, useNavigate } from "@remix-run/react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth as clientAuth, db } from "~/firebase.client";
 import { Group, Office } from "~/schema/group-office.schema";
@@ -93,7 +93,9 @@ export default function Index() {
           <li key={group.name}>
             <div className="flex justify-evenly items-center w-screen">
               <hr className="w-1/3 border-secondary-100 border-b-2" />
-              <h3 className="text-center">{group.name}</h3>
+              <Link to={`/groups/${group.name}/settings`}>
+                <h3 className="text-center hover:text-secondary-hover-100">{group.name}</h3>
+              </Link>
               <hr className="w-1/3 border-secondary-100 border-b-2" />
             </div>
             <ul className="flex flex-row flex-wrap items-center justify-center gap-4 mt-4">
