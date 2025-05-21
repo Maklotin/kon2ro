@@ -14,7 +14,11 @@ import {
   getDocs,
   getDoc,
   doc,
+  addDoc,
+  setDoc,
 } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
+import { Button } from "~/components/ui-library";
 
 export const meta: MetaFunction = ({ data }) => {
   const officeName = (
@@ -92,6 +96,37 @@ export default function Calendar() {
     }
   };
 
+  const generateInviteLink = async () => {
+    if (!officeData) {
+      setError("Office data is not loaded.");
+      return;
+    }
+
+    try {
+      const inviteToken = uuidv4();
+
+      await setDoc(doc(db, "invites", inviteToken), {
+        groupId: officeData.group,
+        createdAt: new Date().toISOString(),
+      });
+
+      const inviteLink = `${window.location.origin}/invite/${inviteToken}`;
+
+      await navigator.clipboard.writeText(inviteLink);
+
+      alert("Invite link copied to clipboard!");
+    } catch (error) {
+      console.error("Error generating invite link:", error);
+      setError("Failed to generate invite link.");
+    }
+  };
+
+  React.useEffect(() => {
+    if (officeData) {
+      fetchEvents();
+    }
+  }, [officeData]);
+
   async function fetchEvents() {
     if (!officeData) return;
 
@@ -112,24 +147,33 @@ export default function Calendar() {
     }
   }
 
-  const handleDateSelect = (selectInfo: any) => {
+  const handleDateSelect = async (selectInfo: any) => {
+    if (!officeData || !username) return;
+
+    console.log("office ID:", officeData.id);
+
     const newEvent = {
-      id: `${Date.now()}`,
-      title: username + " - På kontoret",
+      title: `${username} - På kontoret`,
       start: selectInfo.startStr,
       end: selectInfo.endStr,
-      backgroundColor: "#673030",
-      borderColor: "#3d1d1d",
+      officeId: officeData.id,
+      uid: clientAuth.currentUser?.uid,
     };
-    setEvents((prevEvents) => [...prevEvents, newEvent]);
+
+    try {
+      const eventRef = await addDoc(collection(db, "timestamps"), newEvent);
+
+      setEvents((prevEvents) => [
+        ...prevEvents,
+        { id: eventRef.id, ...newEvent },
+      ]);
+    } catch (error) {
+      setError("Det oppsto et problem under lagring av tidspunktet");
+    }
   };
 
   const handleEventClick = (clickInfo: any) => {
-    if (
-      confirm(
-        "Er du sikker på at du vil slette dette tidspunktet?"
-      )
-    ) {
+    if (confirm("Er du sikker på at du vil slette dette tidspunktet?")) {
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.id !== clickInfo.event.id)
       );
@@ -186,6 +230,12 @@ export default function Calendar() {
     <div className="flex flex-col items-center h-1/2 w-2/3">
       <h1>{officeName}</h1>
       <FullCalendar {...options} height={700} />
+      <Button
+      className="mt-4"
+        onClick={generateInviteLink}
+      >
+        <p>Generer Invitasjonslenke</p>
+      </Button>
     </div>
   );
 }

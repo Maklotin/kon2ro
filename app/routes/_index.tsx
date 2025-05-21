@@ -3,7 +3,7 @@ import { MetaFunction, useNavigate } from "@remix-run/react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth as clientAuth, db } from "~/firebase.client";
 import { Group, Office } from "~/schema/group-office.schema";
-import { OfficeStickyNote } from "~/components/ui-library";
+import { Button, OfficeStickyNote } from "~/components/ui-library";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Velg kontor - Kon2ro" }];
@@ -96,7 +96,7 @@ export default function Index() {
               <h3 className="text-center">{group.name}</h3>
               <hr className="w-1/3 border-secondary-100 border-b-2" />
             </div>
-            <ul className="flex flex-row items-center justify-center gap-4 mt-4">
+            <ul className="flex flex-row flex-wrap items-center justify-center gap-4 mt-4">
               {offices
                 .filter((office) => group.offices.includes(office.id))
                 .map((office) => (
@@ -115,12 +115,11 @@ export default function Index() {
         ))}
       </ul>
       <div className="flex items-center justify-center mt-10">
-        <button
-          className="bg-secondary-100 px-4 py-2 rounded hover:bg-secondary-hover-100 transition-all duration-300 hover:transform hover:scale-105 mb-8"
+        <Button
           onClick={() => navigate("/create-group")}
         >
           <p className="hover:bg font-cooperblack">Opprett ny gruppe</p>
-        </button>
+        </Button>
       </div>
     </div>
   );

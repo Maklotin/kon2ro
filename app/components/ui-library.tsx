@@ -110,3 +110,21 @@ export function OfficeStickyNote({
     </div>
   );
 }
+
+export function Button({
+  className,
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      className={cn(
+        "bg-secondary-100 px-4 py-2 rounded hover:bg-secondary-hover-100 transition-all duration-300 hover:transform hover:scale-105 mb-8",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}

@@ -10,7 +10,12 @@ import {
   StickyNoteTextInput,
 } from "~/components/ui-library";
 import { auth as clientAuth } from "~/firebase.client";
-import { Link, MetaFunction, useNavigate } from "@remix-run/react";
+import {
+  Link,
+  MetaFunction,
+  useNavigate,
+  useSearchParams,
+} from "@remix-run/react";
 
 import { createUserIfItNotExists } from "~/utils/user";
 import { FirebaseError } from "firebase/app";
@@ -26,12 +31,14 @@ export default function Login() {
   const [error, setError] = React.useState<string | null>(null);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   React.useEffect(() => {
     const unsubscribe = clientAuth.onAuthStateChanged((user) => {
       if (user) {
-        navigate("/");
+        navigate(redirectTo);
       }
     });
 
@@ -54,6 +61,8 @@ export default function Login() {
       );
 
       await createUserIfItNotExists(credential.user);
+
+      navigate(redirectTo);
     } catch (error) {
       console.error("Login error:", error);
       // Fant hjelp med å sette riktig type fra "Juk" fra Stackoverflow https://stackoverflow.com/questions/40157541/how-do-you-access-the-code-property-of-a-firebaseerror-in-angularfire-typesc
@@ -106,9 +115,15 @@ export default function Login() {
   return (
     <div className="flex flex-col items-center justify-center">
       <h2>Velkommen til Kon2ro!</h2>
-      <p className="text-secondary-100 font-cnew m-2">
-        Logg inn for å bruke Kon2ro
-      </p>
+      {redirectTo !== "/" ? (
+        <p className="text-red-line-100">
+          Du må logge inn for å bli med i gruppa
+        </p>
+      ) : (
+        <p className="text-secondary-100 font-cnew m-2">
+          Logg inn for å bruke Kon2ro
+        </p>
+      )}
       <StickyNote
         title="Logg inn"
         fields={[
