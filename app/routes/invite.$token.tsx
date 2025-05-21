@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "@remix-run/react";
+import { MetaFunction, useNavigate, useParams } from "@remix-run/react";
 import {
   doc,
   getDoc,
@@ -12,6 +12,11 @@ import {
 } from "firebase/firestore";
 import { auth as clientAuth, db } from "~/firebase.client";
 import React from "react";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "gruppeinvitasjon - Kon2ro" }];
+};
+
 
 // Hele siden er generert med Github Copilot med GPT-4o
 

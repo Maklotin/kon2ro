@@ -266,7 +266,7 @@ export default function Calendar() {
     <div className="flex flex-col items-center h-1/2 w-2/3">
       <h1>{officeName}</h1>
       <FullCalendar {...options} height={700} />
-      <Button className="mt-4" onClick={generateInviteLink}>
+      <Button className="mt-8" onClick={generateInviteLink}>
         <p>Generer Invitasjonslenke</p>
       </Button>
     </div>

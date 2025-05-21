@@ -1,5 +1,10 @@
-import { Link } from "@remix-run/react";
+import { Link, MetaFunction } from "@remix-run/react";
 import { auth as clientAuth } from "~/firebase.client";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Personvernserklæring - Kon2ro" }];
+};
+
 
 export default function Gdpr() {
   const currentUser = clientAuth.currentUser;

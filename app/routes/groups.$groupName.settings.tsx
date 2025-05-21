@@ -9,8 +9,13 @@ import {
   collection,
   where,
 } from "firebase/firestore";
-import { useParams, useNavigate, Link } from "@remix-run/react";
+import { useParams, useNavigate, Link, MetaFunction } from "@remix-run/react";
 import { db } from "~/firebase.client";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Gruppeinnstillinger - Kon2ro" }];
+};
+
 
 export default function GroupSettings() {
   // Slettefunksjon er generert med Github Copilot modell GPT-4p

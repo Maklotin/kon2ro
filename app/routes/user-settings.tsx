@@ -25,7 +25,12 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { Link } from "@remix-run/react";
+import { Link, MetaFunction } from "@remix-run/react";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Brukerinnstillinger - Kon2ro" }];
+};
+
 
 //Så si hele denne siden er generert med Github Copilot GPT-4o
 
