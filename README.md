@@ -52,7 +52,19 @@ npm install -g firebase-tools
 ```
 "-g" laster ned firebase-tools globalt på PCen i motsetning til de andre pakkene som bare installeres lokalt til prosjektet. 
 
-### Steg 5
+### Steg 5 
+Lag en .env fil og lim inn alle API nøkler (som du får fra Maklotin). Filen skal ha samme struktur som dette
+```tsx
+VITE_APP_FIREBASE_API_KEY="apinøkkel"
+VITE_APP_FIREBASE_AUTH_DOMAIN="domene"
+VITE_APP_FIREBASE_PROJECT_ID="id"
+VITE_APP_FIREBASE_STORAGE_BUCKET="storagebucket"
+VITE_APP_FIREBASE_MESSAGING_SENDER_ID="sender-id"
+VITE_APP_FIREBASE_APP_ID="app-id"
+
+```
+
+### Steg 6
 Etter firebase har blitt installert så skriver du i terminalen
 ```bash
 firebase login
@@ -64,7 +76,7 @@ Allow Firebase to collect CLI and Emulator Suite usage and error reporting infor
 Og da svarer du med hva du vil, det påvirker ikke veiledningen. Svar med å skrive "y" for "yes", eller "n" for "no" og trykk enter. 
 Etter du har svart vil nettleseren åpne og da velger du kontoen som har blitt lagt til i firebase prosjektet (kontakt Maklotin om du er usikker). 
 
-### Steg 6
+### Steg 7
 Når innlogging er ferdig så skriver du
 ```bash
 npm run dev
@@ -83,7 +95,7 @@ også når det står
 kan du åpne nettleseren din og skrive inn [http://localhost:5173](http://localhost:5173/) for å få opp nettsiden lokalt. Da er det bare å begynne å kode eller hva enn du ønsker!
 
 
-### BONUS - Steg 7
+### BONUS - Steg 8
 Åpne nettleseren, gå til [firebase.google.com](https://firebase.google.com/) og trykk på "Go to console". Logg inn på Google brukeren som Maklotin har lagt til i firebase (kontakt Maklotin om du er usikker). Velg kon2ro prosjektet, og vipps så har du tilgang til database
 n, brukerinnloggingsmetoder og alt annet av skytjenester!
 
